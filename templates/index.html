@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator Pro</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f9; padding: 50px; }
+        .card { background: white; padding: 30px; border-radius: 10px; display: inline-block; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); text-align: left; }
+        h2 { text-align: center; margin-top: 0; }
+        .form-group { margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; }
+        input[type="number"] { width: 60px; padding: 5px; border: 1px solid #ccc; border-radius: 4px; }
+        .checkbox-group { margin: 15px 0; }
+        .checkbox-item { margin-bottom: 8px; display: flex; align-items: center; }
+        .checkbox-item input { margin-right: 10px; transform: scale(1.2); }
+        button { background: #007BFF; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-size: 1rem; font-weight: bold; }
+        button:hover { background: #0056b3; }
+        .result { margin-top: 25px; padding: 15px; background: #eef9f0; border: 1px solid #c3e6cb; border-radius: 5px; text-align: center; }
+        .result p { margin: 0 0 10px 0; color: #155724; font-weight: bold; }
+        code { font-size: 1.3rem; font-weight: bold; color: #155724; background: #ffffff; padding: 5px 10px; border-radius: 4px; border: 1px dashed #71dd8a; word-break: break-all; display: block; }
+        .error { margin-top: 25px; padding: 15px; background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; border-radius: 5px; text-align: center; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>🔑 Password Generator Pro</h2>
+        <form method="POST" action="/">
+            <div class="form-group">
+                <label for="length">Password Length:</label>
+                <input type="number" id="length" name="length" min="6" max="30" value="{{ current_length or 12 }}" required>
+            </div>
+            
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="numbers" name="numbers" value="yes" {% if include_numbers %}checked{% endif %}>
+                    <label for="numbers">Include Numbers (0-9)</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="symbols" name="symbols" value="yes" {% if include_symbols %}checked{% endif %}>
+                    <label for="symbols">Include Special Characters (!@#$)</label>
+                </div>
+            </div>
+            
+            <button type="submit">Generate Password</button>
+        </form>
+
+        {% if error_message %}
+            <div class="error">
+                {{ error_message }}
+            </div>
+        {% endif %}
+
+        {% if password %}
+            <div class="result">
+                <p>Your Secure Password:</p>
+                <code>{{ password }}</code>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
